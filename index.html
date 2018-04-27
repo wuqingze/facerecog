@@ -4,9 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>人脸识别</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
-<body>
-    <p>欢迎来到吴清泽的网站</p>
+<body ng-app="indexapp" ng-controller="indexController">
+    <p>欢迎来到吴清泽的网站!</p>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <form role="form">
+                    <div class="form-group">
+                         <label for="exampleInputEmail1">互联网图片地址(识别本地图片需要清空图片地址)</label><input class="form-control" ng-model="imageurl"/>
+                    </div>
+                    <div class="form-group" ng-show="imageurl.length==0">
+                         <label for="exampleInputFile">上传图片</label><input type="file" id="imgPicker"/>
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="test()">识别人脸</button>
+                </form>
+            </div>
+        </div>
+        <br><br>
+        <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-6 column">
+                            <img src="{{imageurl}}" alt="" id = "preview" style="width:60%">
+                        </div>
+                        <div class="col-md-6 column">
+                            <p>
+                                hello
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
 </body>
+<script>
+
+    document
+    .querySelector('#imgPicker')
+    .addEventListener('change', function(){
+        //当没选中图片时，清除预览
+        if(this.files.length === 0){
+            document.querySelector('#preview').src = '';
+            return;
+        }
+        
+        //实例化一个FileReader
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            //当reader加载时，把图片的内容赋值给
+            document.querySelector('#preview').src = e.target.result;
+        };
+
+    //读取选中的图片，并转换成dataURL格式
+    reader.readAsDataURL(this.files[0]);
+    }, false);
+
+
+    var app = angular.module('indexapp', []);
+
+    app.controller('indexController', function($scope) {
+        var socket = io.connect();
+        $scope.imageurl = "";
+        console.log("sajflaj")
+        $scope.test = function(){
+            console.log($scope.imageurl);
+            console.log($scope.imageurl.length);
+        }
+
+        $scope.bend = function(){
+            $scope.imageurl = "";
+            console.log("beni");
+        }
+});
+</script>
 </html>

@@ -29,6 +29,6 @@ io.on('connection', function(socket){
 var port = process.env.PORT || 1337;
 
 http.listen(port, function(){
-    console.log('listening on *:8080');
+    console.log('listening on *:'+port);
   });
  

@@ -1,4 +1,4 @@
 # -*-coding:utf-8 -*-
-import sys
-print(sys.argv)
-print("helo world")
+file = open("face.json")
+for line in file:
+    print(line)
