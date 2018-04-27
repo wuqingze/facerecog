@@ -43,7 +43,7 @@ io.on('connection', function(socket){
           }else{
             // imageurl = "http://h.hiphotos.baidu.com/image/pic/item/8d5494eef01f3a29a2a71cae9225bc315c607c67.jpg"
             imageurl = "https://facerecog1.chinacloudsites.cn/images/face.png";
-            exec('python detect_faces.py '+imageurl,function(error,stdout,stderr){
+            exec('python3 detect_faces.py '+imageurl,function(error,stdout,stderr){
               if(stdout.length >1){
                   socket.emit("shibie",{"result":stdout});
               } else {
