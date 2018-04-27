@@ -58,7 +58,9 @@ io.on('connection', function(socket){
       }
     });
 
-
+    socket.on("test",function(msg){
+      socket.emit("test",{"fjfj":2});
+    });
 
 
 

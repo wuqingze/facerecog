@@ -32,8 +32,8 @@ try:
     response = requests.request('POST', uri_base + '/face/v1.0/detect', json=body, data=None, headers=headers, params=params)
 
     parsed = json.loads(response.text)
-    
-    # print(parsed)
+    print(imageurl)
+    print(parsed)
     person = parsed[0]
     
     attributes = person["faceAttributes"]
