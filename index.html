@@ -13,7 +13,6 @@
 </head>
 <body ng-app="indexapp" ng-controller="indexController">
     <p>欢迎来到吴清泽的网站!</p>
-    <button ng-click="test()">test</button>
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
@@ -95,7 +94,7 @@
         $scope.result = "";
         console.log("sajflaj")
         $scope.shibie = function(){
-            if($scope.imageurl.length!=0){
+            if($scope.imageurl != ""){
                 console.log("wangye");
                 socket.emit("shibie",{"type":"internet","imageurl":$scope.imageurl});
             }else{
