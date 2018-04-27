@@ -25,14 +25,9 @@ io.on('connection', function(socket){
       var imageurl = msg['imageurl'];
       if(msg['type']=='internet'){
         exec('python3 detect_faces.py '+imageurl,function(error,stdout,stderr){
-          if(stdout.length >1){
-              socket.emit("shibie",{"result":stdout});
-          } else {
-              console.log('you don\'t offer args');
-          }
-          if(error) {
-              console.info('stderr : '+stderr);
-          }
+          fs.readFile('./result.txt', 'utf8', function(err, data){
+            socket.emit("shibie",{"result":data});
+        });
         });
       }else{
         var imgData = msg["imagedata"];

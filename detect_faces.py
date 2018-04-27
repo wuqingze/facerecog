@@ -32,8 +32,6 @@ try:
     response = requests.request('POST', uri_base + '/face/v1.0/detect', json=body, data=None, headers=headers, params=params)
 
     parsed = json.loads(response.text)
-    print(imageurl)
-    print(parsed)
     person = parsed[0]
     
     attributes = person["faceAttributes"]
@@ -41,7 +39,11 @@ try:
     emotion = attributes["emotion"]
     gender = attributes["gender"]
     glasses = attributes["glasses"]
-    print(age,gender,glasses,emotion["anger"],emotion["contempt"],emotion["disgust"],emotion["fear"],emotion["happiness"],emotion["neutral"],emotion["sadness"],emotion["surprise"])
+    file = open("result.txt",'w')
+    result = ""+str(age)+" "+gender+" "+glasses+" "+str(emotion["anger"])+" "+str(emotion["contempt"])+" "+str(emotion["disgust"])+" "+str(emotion["fear"])+" "+str(emotion["happiness"])+" "+str(emotion["neutral"])+" "+str(emotion["sadness"])+" "+str(emotion["surprise"])
+    file.write(result)
+    file.close()
+    # print(age,gender,glasses,emotion["anger"],emotion["contempt"],emotion["disgust"],emotion["fear"],emotion["happiness"],emotion["neutral"],emotion["sadness"],emotion["surprise"])
     # print(json.dumps({"age":age,"emotion":emotion,"gender":gender,"glasses":glasses}))
     # print (json.dumps(parsed, sort_keys=True, indent=2))
 

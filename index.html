@@ -13,7 +13,6 @@
 </head>
 <body ng-app="indexapp" ng-controller="indexController">
     <p>欢迎来到吴清泽的网站!</p>
-    <button ng-click="test()">test</button>
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
@@ -137,6 +136,7 @@
         }
 
         socket.on("shibie",function(msg){
+
             $scope.result = msg["result"];
             var r = $scope.result.split(" ");
             $scope.age = r[0];
