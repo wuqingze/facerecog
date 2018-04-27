@@ -1,0 +1,12 @@
+1.下载azure模板
+模板需要自定义的地方有有：parameters，variables，resources和outputs。但只有resources是必须修改的。这里我只修改了resources的内容
+2. 修改配置文件
+    2.1用到copy元素以及copyIndex()函数批量部署多台虚拟机
+    2.2设置资源的dependsOn属性，相同编号的实例依次依赖，不同编号的实例并行创建, 设置网络接口的公共IP与对应虚拟网络，同时设置虚拟机的网络接口为对应网络接口。
+3.在portal.azure.cn操作
+    3.1
+    3.2
+    3.3
+    3.4
+    3.5
+4.成功部署

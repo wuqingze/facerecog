@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>人脸识别</title>
-    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
-    <!-- <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="./js/bootstrap.min.js"> -->
-    <!-- <script src="./js/jquery-3.1.1.min.js"></script> -->
-    <!-- <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
-    
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <!-- <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
     <script src="https://cdn.bootcss.com/angular.js/1.4.6/angular.min.js"></script>
-    
-    <!-- <script src="./js/angular.min.js"></script> -->
     <script src="https://cdn.bootcss.com/socket.io/2.1.0/socket.io.js"></script>
 </head>
 <body ng-app="indexapp" ng-controller="indexController">
@@ -25,14 +16,14 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <form role="form">
+                <form role="form"  id="imgForm">
                     <div class="form-group">
-                         <label for="exampleInputEmail1">互联网图片地址(识别本地图片需要清空图片地址)</label><input class="form-control" ng-model="imageurl"/>
+                         <h3 for="exampleInputEmail1">  非本地图片(识别本地图片需要清空图片地址)</h3><button ng-click="clear()">清空</button ><br><input class="form-control" ng-model="imageurl" placeholder="输入图片地址"/>
                     </div>
                     <div class="form-group" ng-show="imageurl.length==0">
-                         <label for="exampleInputFile">上传图片</label><input type="file" id="imgPicker"/>
+                         <h3>本地图片</h3><br><input type="file" id="imgPicker"/>
                     </div>
-                    <button type="button" class="btn btn-default" ng-click="test()">识别人脸</button>
+                    <button type="button" class="btn btn-default" ng-click="shibie()">识别人脸</button>
                 </form>
             </div>
         </div>
@@ -41,11 +32,29 @@
                 <div class="col-md-12 column">
                     <div class="row clearfix">
                         <div class="col-md-6 column">
-                            <img src="{{imageurl}}" alt="" id = "preview" style="width:60%">
+                            <img src="{{imageurl}}" alt="" id = "preview" style="width:100%">
                         </div>
                         <div class="col-md-6 column">
                             <p>
-                                hello
+                                性别:{{gender}}
+                            </p>
+                            <p>
+                                年龄:{{age}}
+                            </p>
+                            <p>
+                                眼镜:{{glasses}}
+                            </p>
+                            <p>
+                                情绪:<br>
+                                &nbsp;anger:&nbsp{{anger}}<br>
+                                &nbsp;contempt:&nbsp{{contempt}}<br>
+                                &nbsp;disgust:&nbsp{{disgust}}<br>
+                                &nbsp;fear:&nbsp{{fear}}<br>
+                                &nbsp;happiness:&nbsp{{happiness}}<br>
+                                &nbsp;neutral:&nbsp{{neutral}}<br>
+                                &nbsp;sadness:&nbsp{{sadness}}<br>
+                                &nbsp;surprise:&nbsp{{surprise}}<br>
+
                             </p>
                         </div>
                     </div>
@@ -82,16 +91,65 @@
     app.controller('indexController', function($scope) {
         var socket = io.connect();
         $scope.imageurl = "";
+        $scope.result = "";
         console.log("sajflaj")
-        $scope.test = function(){
-            console.log($scope.imageurl);
-            console.log($scope.imageurl.length);
+        $scope.shibie = function(){
+            if($scope.imageurl.length!=0){
+                socket.emit("shibie",{"type":"internet","imageurl":$scope.imageurl});
+            }else{
+                var file = $("#imgForm").find("input")[1].files[0];  
+                //创建读取文件的对象  
+                var reader = new FileReader();  
+                //创建文件读取相关的变量  
+                var imgFile;  
+                //为文件读取成功设置事件  
+                reader.onload=function(e) {  
+                    imgFile = e.target.result;  
+                    socket.emit("shibie",{"type":"local","imagedata":imgFile});
+                };  
+                reader.readAsDataURL(file); 
+
+            }
         }
 
         $scope.bend = function(){
             $scope.imageurl = "";
             console.log("beni");
         }
+
+        $scope.clear = function(){
+            $scope.imageurl = "";
+            $scope.age = "";
+            $scope.gender = "";
+            $scope.glasses = "";
+            $scope.anger = "";
+            $scope.contempt = "";
+            $scope.disgust = "";
+            $scope.fear = "";
+            $scope.happiness = "";
+            $scope.neutral = "";
+            $scope.sadness = "";
+            $scope.surprise = "";
+            $scope.$apply();
+        }
+
+        socket.on("shibie",function(msg){
+            $scope.result = msg["result"];
+            var r = $scope.result.split(" ");
+            $scope.age = r[0];
+            $scope.gender = r[1];
+            $scope.glasses = r[2];
+            $scope.anger = r[3];
+            $scope.contempt = r[4];
+            $scope.disgust = r[5];
+            $scope.fear = r[6];
+            $scope.happiness = r[7];
+            $scope.neutral = r[8];
+            $scope.sadness = r[9];
+            $scope.surprise = r[10];
+            console.log($scope.result)
+            $scope.$apply();
+        });
 });
 </script>
 </html>
