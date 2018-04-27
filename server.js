@@ -24,7 +24,7 @@ io.on('connection', function(socket){
     socket.on("shibie",function(msg){
       var imageurl = msg['imageurl'];
       if(msg['type']=='internet'){
-        exec('python detect_faces.py '+imageurl,function(error,stdout,stderr){
+        exec('python3 detect_faces.py '+imageurl,function(error,stdout,stderr){
           if(stdout.length >1){
               socket.emit("shibie",{"result":stdout});
           } else {
