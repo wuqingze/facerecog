@@ -20,9 +20,9 @@
                     <div class="form-group">
                          <h3 for="exampleInputEmail1">  非本地图片(不支持本地图片)</h3><button ng-click="clear()">清空</button ><br><input class="form-control" ng-model="imageurl" placeholder="输入图片地址"/>
                     </div>
-                    <!-- <div class="form-group" ng-show="imageurl.length==0" ng-show="false">
+                    <div class="form-group" ng-show="imageurl.length==0" hidden="true">
                          <h3>本地图片</h3><br><input type="file" id="imgPicker"/>
-                    </div> -->
+                    </div>
                     <button type="button" class="btn btn-default" ng-click="shibie()">识别人脸</button>
                 </form>
             </div>
