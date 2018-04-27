@@ -7,7 +7,7 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64, requests
 # Replace the subscription_key string value with your valid subscription key.
 subscription_key = '99ff296491ee4f4dbea02910ab179eb6'
 
-uri_base = 'https://api.cognitive.azure.cn/face/v1.0'
+uri_base = 'https://api.cognitive.azure.cn'
 
 # Request headers.
 headers = {
@@ -36,3 +36,5 @@ try:
 except Exception as e:
     print('Error:')
     print(e)
+
+####################################    
