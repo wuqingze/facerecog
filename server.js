@@ -23,10 +23,12 @@ io.on('connection', function(socket){
     console.log('a user connected '+socket.id);
     socket.on("shibie",function(msg){
       var imageurl = msg['imageurl'];
+      console.log("aksjdflaj");
+      
       if(msg['type']=='internet'){
         exec('python3 detect_faces.py '+imageurl,function(error,stdout,stderr){
           fs.readFile('./result.txt', 'utf8', function(err, data){
-            socket.emit("shibie",{"result":data});
+            socket.emit("shibie",{"result":data.toString()});
         });
         });
       }else{
@@ -38,15 +40,11 @@ io.on('connection', function(socket){
           }else{
             // imageurl = "http://h.hiphotos.baidu.com/image/pic/item/8d5494eef01f3a29a2a71cae9225bc315c607c67.jpg"
             imageurl = "https://facerecog1.chinacloudsites.cn/images/face.png";
+            // imageurl = "https://github.com/wuqingze/facerecog/blob/master/images/face.png?raw=true";
             exec('python3 detect_faces.py '+imageurl,function(error,stdout,stderr){
-              if(stdout.length >1){
-                  socket.emit("shibie",{"result":stdout});
-              } else {
-                  console.log('you don\'t offer args');
-              }
-              if(error) {
-                  console.info('stderr : '+stderr);
-              }
+              fs.readFile('./result.txt', 'utf8', function(err, data){
+                socket.emit("shibie",{"result":data.toString()});
+            });
             });
           }  
           });
