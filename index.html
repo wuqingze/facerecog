@@ -95,8 +95,10 @@
         console.log("sajflaj")
         $scope.shibie = function(){
             if($scope.imageurl.length!=0){
+                console.log("wangye");
                 socket.emit("shibie",{"type":"internet","imageurl":$scope.imageurl});
             }else{
+                console.log("bendi");
                 var file = $("#imgForm").find("input")[1].files[0];  
                 //创建读取文件的对象  
                 var reader = new FileReader();  
